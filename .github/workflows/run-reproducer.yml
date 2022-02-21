@@ -1,0 +1,21 @@
+name: Run reproducer on each commit
+on: push
+jobs:
+  gradle:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: run with ArchUnit 0.22.0
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: test -ParchUnitVersion=0.22.0
+    - name: run with ArchUnit 0.23.0
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: test -ParchUnitVersion=0.23.0
